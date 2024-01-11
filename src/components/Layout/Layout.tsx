@@ -16,6 +16,7 @@ import React, { MutableRefObject, ReactNode, useRef } from "react";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import NavigationItem from "../NavigationLeft/NavigationItem";
 
+// need to use next dynamic to import the twitch embed lib
 const ReactTwitchEmbedVideo = dynamic(
   () => import("react-twitch-embed-video"),
   {
@@ -29,21 +30,20 @@ type LayoutProps = {
 };
 
 const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
-  // icons needed for the left menu
+  // Icons needed for the left menu
   const menuIcons = [
     { icon: HomeIcon, text: "Users Posts", href: "/" },
     { icon: Person, text: "Users Mgmt.", href: "/users?" },
   ];
 
+  // Chakra UI disclosure hook for mobile menu
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const firstField = useRef<HTMLInputElement | null>(null);
 
   return (
-    // [3, null, 5] has same effect as {sm: 3, md: 5}
-    // this is used to separate the columns to 3
     <>
+      {/* Layout structure with three columns */}
       <SimpleGrid columns={{ base: 1, md: 3 }} minChildWidth="250px">
-        {/* left menu */}
+        {/* Left menu */}
         <Box
           display={{ base: "none", md: "block" }}
           height="100vh"
@@ -61,6 +61,7 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
         >
           <SimpleGrid columns={2} fontSize={20} spacingX={2}>
             <Flex align="center" justify="right" height="60px">
+              {/* Logo */}
               <Image
                 boxSize="2.4rem"
                 objectFit="cover"
@@ -69,11 +70,15 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
               />
             </Flex>
             <Flex height="60px" align="center">
+              {/* Blog app name */}
               <Text fontWeight="bold">Faith&apos;s Blog App</Text>
             </Flex>
+            {/* Navigation items */}
             <NavigationItem menuIcons={menuIcons} />
           </SimpleGrid>
         </Box>
+
+        {/* Mobile menu for smaller screens */}
         <Flex align="center" display={{ base: "flex", md: "none" }} m={5}>
           <Box>
             <IconButton
@@ -82,14 +87,14 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
               icon={<MenuIcon />}
               onClick={onOpen}
             />
+            {/* MobileMenu component */}
             <MobileMenu
               isOpen={isOpen}
               onClose={onClose}
-              onOpen={onOpen}
-              firstField={firstField}
               menuIcons={menuIcons}
             />
           </Box>
+          {/* Blog app name for smaller screens */}
           <Flex justify="center" flexGrow={1}>
             <HStack>
               <Image
@@ -105,7 +110,7 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
           </Flex>
         </Flex>
 
-        {/* middle menu (posts) */}
+        {/* Middle menu (Posts) */}
         <Box
           ref={middleBoxRef}
           height="100vh"
@@ -122,7 +127,7 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
           {children}
         </Box>
 
-        {/* right menu (Live now) */}
+        {/* Right menu (Live Now) */}
         <Box
           display={{ base: "none", md: "block" }}
           height="100vh"
@@ -139,10 +144,12 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
           _webkit-scrollbar-thumb={{ backgroundColor: "#555555" }}
         >
           <Box float="left">
+            {/* Live Now section */}
             <Text fontSize="xl" fontWeight="bold" mb={4}>
               Live now
             </Text>
             <Box>
+              {/* Twitch Embed Video */}
               <ReactTwitchEmbedVideo
                 width="100%"
                 height="500px"

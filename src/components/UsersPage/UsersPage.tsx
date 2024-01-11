@@ -50,9 +50,11 @@ type UsersPageProps = {
 };
 
 const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
+  // Hooks for managing state
   const toast = useToast();
   const router = useRouter();
 
+  // Initial data for a new user
   const emptyUser = {
     id: 0,
     name: "",
@@ -61,24 +63,28 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
     status: "active",
   };
 
-  const [listedUser, setListedUser] = useState<User[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  // State variables
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userToSearch, setUserToSearch] = useState<string>("");
   const [searchStatus, setSearchStatus] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<User>(emptyUser);
-  const [operation, setOperation] = useState<string>("add");
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [userIdToProcess, setUserIdToProcess] = useState<number>(0);
+  const [userToSearch, setUserToSearch] = useState<string>("");
+  const [operation, setOperation] = useState<string>("add");
+  const [listedUser, setListedUser] = useState<User[]>([]);
+  const [currentUser, setCurrentUser] = useState<User>(emptyUser);
 
+  // Chakra UI hooks for modal and drawer
   const drawerDisclosure = useDisclosure();
   const modalDisclosure = useDisclosure();
   const firstField = useRef<HTMLInputElement | null>(null);
 
+  // Hooks for handling URL search parameters
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = navRouter();
   const [query] = useDebounce(userToSearch, 750);
 
+  // Initial data fetch on component mount
   useEffect(() => {
     getUsers(1)
       .then((data) => {
@@ -88,6 +94,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
       .catch((error: any) => console.error(error));
   }, []);
 
+  // Effect to handle search queries and update URL
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     if (query) {
@@ -109,18 +116,20 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
     };
 
     findUser();
+    // eslint-disable-next-line
   }, [query]);
 
+  // Effect to set the user search state from URL on component mount
   useEffect(() => {
     if (router.isReady) {
-      // Code using query
       const params = new URLSearchParams(searchParams);
       const currentQuery = params.get("q") || "";
-      // this will set the state before component is mounted
       setUserToSearch(currentQuery);
     }
+    // eslint-disable-next-line
   }, [router.isReady]);
 
+  // Event handler for user search input change
   const handleUserToSearch: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -134,6 +143,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
     }
   };
 
+  // Event handler for pagination change
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -150,18 +160,21 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
       .catch((error: any) => console.error(error));
   };
 
+  // Event handler for adding a new user
   const handleAddUser = () => {
     setCurrentUser(emptyUser);
     setOperation("add");
     drawerDisclosure.onOpen();
   };
 
+  // Event handler for updating an existing user
   const handleUpdateUser = (user: User) => {
     setCurrentUser(user);
     setOperation("edit");
     drawerDisclosure.onOpen();
   };
 
+  // Event handler for deleting a user
   const handleDeleteUser = () => {
     deleteUser(userIdToProcess)
       .then(() => {
@@ -185,6 +198,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
   };
 
   return (
+    // Main container for the users page
     <Box
       pt="0.5rem"
       pb="2rem"
@@ -192,6 +206,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
       id="postContainer"
       overflowY="auto"
     >
+      {/* UserForm component for adding and editing users */}
       <UserForm
         isOpen={drawerDisclosure.isOpen}
         onClose={drawerDisclosure.onClose}
@@ -201,7 +216,9 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
         loadingNewData={setIsLoading}
         setListedUser={setListedUser}
       />
+      {/* Flex container for "Add" button and user search input */}
       <Flex>
+        {/* "Add" button for adding a new user */}
         <Button
           colorScheme="teal"
           isLoading={isLoading}
@@ -212,6 +229,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
           Add
         </Button>
         <Spacer mx={3} />
+        {/* Input field for searching users */}
         <Input
           borderColor="gray"
           type="text"
@@ -222,23 +240,28 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
           _placeholder={{ color: "gray" }}
         />
       </Flex>
+      {/* Loading spinner when data is still loading */}
       {isLoading && (
         <Flex justify="center" align="center">
           <Spinner />
         </Flex>
       )}
+      {/* Display listed users */}
       {listedUser.length > 0 &&
         listedUser.map((item, index, array) => {
           return (
             <React.Fragment key={index}>
+              {/* User card for each listed user */}
               <Card mb={5}>
                 <CardBody>
+                  {/* Responsive layout for small screens */}
                   <Flex
                     display={{ base: "flex", md: "none" }}
                     align="center"
                     justify="center"
                     direction="column"
                   >
+                    {/* Avatar and basic user information */}
                     <Box mb={3}>
                       <Avatar boxSize="2.4rem" mr={3} name={item.name} />
                     </Box>
@@ -280,6 +303,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                       <Text fontSize="14px">{item.email.toString()}</Text>
                     </Box>
                     <Divider borderColor="white" my={5} />
+                    {/* Actions: Update and Delete buttons */}
                     <Flex>
                       <Button
                         variant="solid"
@@ -301,11 +325,13 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                     </Flex>
                   </Flex>
 
+                  {/* Grid layout for larger screens */}
                   <SimpleGrid
                     display={{ base: "none", md: "grid" }}
                     columns={1}
                     spacing={3}
                   >
+                    {/* Same user information layout as in the Flex container */}
                     <Flex align="center">
                       <Box>
                         <Avatar boxSize="2.4rem" mr={3} name={item.name} />
@@ -346,6 +372,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                       </Box>
                     </Flex>
                     <Divider borderColor="white" />
+                    {/* Actions: Update and Delete buttons */}
                     <Flex>
                       <Button
                         variant="solid"
@@ -374,6 +401,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
             </React.Fragment>
           );
         })}
+      {/* Pagination and loading spinner for user list */}
       {!isLoading && listedUser.length > 0 && (
         <>
           <Card
@@ -383,6 +411,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
             justify="center"
           >
             <CardBody>
+              {/* Pagination component */}
               <Pagination
                 count={50}
                 variant="outlined"
@@ -390,6 +419,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                 onChange={handleChangePage}
                 disabled={isLoading}
               />
+              {/* Loading spinner for pagination */}
               {isLoading && (
                 <Center>
                   <Spinner color="black" />
@@ -397,17 +427,20 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
               )}
             </CardBody>
           </Card>
+          {/* Scroll to top button */}
           <Center cursor="pointer" mt={5} onClick={scrollToTop}>
             <Text>Go back up</Text>
           </Center>
         </>
       )}
+      {/* Display message when no users are found */}
       {!isLoading && listedUser.length < 1 && (
         <Center>
           <Text>No user was found</Text>
         </Center>
       )}
 
+      {/* Modal for user deletion confirmation */}
       <Modal isOpen={modalDisclosure.isOpen} onClose={modalDisclosure.onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -418,6 +451,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
           </ModalBody>
 
           <ModalFooter>
+            {/* Close and Delete buttons */}
             <Button colorScheme="blue" mr={3} onClick={modalDisclosure.onClose}>
               Close
             </Button>

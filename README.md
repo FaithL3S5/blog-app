@@ -1,40 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Faith's Blog App
 
-## Getting Started
+## Description
 
-First, run the development server:
+Simple Blog with Users Management App utilizing Next JS, TypeScript, and Chakra UI.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+REST APIs are sourced from https://gorest.co.in
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+To set up the project locally, follow these steps:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- Clone the repository: git clone https://github.com/FaithL3S5/blog-app.git
+- Navigate to the project directory: cd blog-app
+- Install the dependencies: npm install
+- Setup the env variables accordingly
+- Start the development server: npm run dev
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- npm run start: Starts the server.
+- npm run dev: Starts the development server.
+- npm run build: Builds the application for production.
+- npm run lint: Lints the project files.
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+The application offers the following features:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Post Browsing: Allows you to browse contents that you and other users posted.
+- User Management: Allows you to add, edit, and delete users.
+- User Search Functionality: Enables you to search through available users list for management.
+- Responsive Design: The application is mobile-friendly and adapts to various screen sizes.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Dependencies
 
-## Deploy on Vercel
+The project uses several dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    "dependencies": {
+    "@chakra-ui/next-js": "^2.2.0",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.3",
+    "@mui/material": "^5.15.3",
+    "axios": "^1.6.5",
+    "dotenv": "^16.3.1",
+    "framer-motion": "^10.17.9",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-twitch-embed-video": "^3.0.3",
+    "use-debounce": "^10.0.0"
+    },
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "typescript": "^5"
+    }
+
+## Limitations
+
+- I am having trouble implementing persistent search query so the search state will be reset everytime you change pages or refresh the website
+- The twitch embed (on the right side with text "Live now") may reload everytime you change pages or refresh the website. Unfortunately, this is the nature of the library and not much can be done by my side.
+
+## Contributing
+
+Contributions to expand and improve the documentation are welcome!
+
+Reach me out from the contacts available from my personal website https://faith-personal-web.vercel.app

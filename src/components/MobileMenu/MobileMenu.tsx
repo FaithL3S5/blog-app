@@ -29,27 +29,28 @@ type MenuIcons = {
 type MobileMenuProps = {
   isOpen: boolean;
   onClose: () => void;
-  onOpen: () => void;
-  firstField: React.MutableRefObject<HTMLInputElement | null>;
   menuIcons: MenuIcons[];
 };
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
   isOpen,
-  onOpen,
   onClose,
-  firstField,
   menuIcons,
 }) => {
+  // Next.js router instance
   const router = useRouter();
 
+  // Function to determine the font weight of the menu item based on the current path
   const checkCurrentPath = (href: string, text: string) => {
     const regex = new RegExp("posts", "i");
 
+    // Extract alphabetic characters from the current path
     const pathName = router.asPath.replace(/[^a-zA-Z]/g, "");
 
+    // Extract alphabetic characters from the menu item's href
     const localHref = href.replace(/[^a-zA-Z]/g, "");
 
+    // Check if the current path matches the menu item's href or contains "posts" (special case)
     if (pathName === localHref) {
       return "bold";
     }
@@ -62,20 +63,19 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   };
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      placement="left"
-      initialFocusRef={firstField}
-      onClose={onClose}
-    >
+    <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
+        {/* Drawer header */}
         <DrawerHeader borderBottomWidth="1px">Main menu</DrawerHeader>
 
+        {/* Drawer body containing the menu items */}
         <DrawerBody>
+          {/* Stack to hold menu items */}
           <Stack fontSize={20} fontWeight="bold">
             {menuIcons.map((item, index) => (
+              // Chakra UI link component with Next.js Link and menu item styling
               <ChakraLink
                 display="block"
                 key={index}
@@ -83,12 +83,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 href={item.href}
               >
                 <HStack>
+                  {/* Icon */}
                   <Flex align="center" justify="right" height="60px">
                     <Box pt={2}>
                       {item.icon &&
                         React.createElement(item.icon, { fontSize: "large" })}
                     </Box>
                   </Flex>
+                  {/* Text */}
                   <Flex key={`text` + index} height="60px" align="center">
                     <Text fontWeight={checkCurrentPath(item.href, item.text)}>
                       {item.text}

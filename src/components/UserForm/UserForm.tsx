@@ -44,6 +44,7 @@ const UserForm: React.FC<UserFormProps> = ({
   setListedUser,
   loadingNewData,
 }) => {
+  // State to manage loading state and form data
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formUser, setFormUser] = useState<User>({
     id: user.id,
@@ -53,6 +54,7 @@ const UserForm: React.FC<UserFormProps> = ({
     status: user.status,
   });
 
+  // Effect to update formUser when user prop changes
   useEffect(() => {
     setFormUser({
       id: user.id,
@@ -63,24 +65,28 @@ const UserForm: React.FC<UserFormProps> = ({
     });
   }, [user]);
 
+  // Toast hook for displaying notifications
   const toast = useToast();
 
+  // Function to validate email format
   function isValidEmail(email: string): boolean {
-    // Regular expression for a basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     return emailRegex.test(email);
   }
 
+  // Function to handle form submission
   const handleSubmit = () => {
     setIsLoading(true);
 
     let emptyFields = [];
 
+    // Validate form fields
     if (formUser.name === "") emptyFields.push("name");
     if (formUser.email === "" || !isValidEmail(formUser.email))
       emptyFields.push("email");
+
     if (emptyFields.length > 0) {
+      // Display error toast for invalid fields
       toast({
         title: `Invalid values detected on: ${emptyFields.join(", ")}`,
         status: "error",
@@ -91,10 +97,13 @@ const UserForm: React.FC<UserFormProps> = ({
       return;
     }
 
+    // Perform CRUD operation based on the operation prop
     switch (operation) {
       case "add":
+        // Logic for adding a new user
         postUser(formUser)
           .then(() => {
+            // Refresh the user list and display success toast
             setListedUser([]);
             loadingNewData(true);
             getUsers(1)
@@ -102,7 +111,7 @@ const UserForm: React.FC<UserFormProps> = ({
                 setListedUser(data);
                 loadingNewData(false);
                 toast({
-                  title: `New user added`,
+                  title: "New user added",
                   status: "success",
                   duration: 9000,
                   isClosable: true,
@@ -111,11 +120,12 @@ const UserForm: React.FC<UserFormProps> = ({
               .catch((error: any) => console.error(error));
           })
           .catch((error: any) => console.error(error));
-
         break;
       case "edit":
+        // Logic for editing an existing user
         putUser(formUser)
           .then(() => {
+            // Refresh the user list and display success toast
             setListedUser([]);
             loadingNewData(true);
             getUsers(1)
@@ -123,7 +133,7 @@ const UserForm: React.FC<UserFormProps> = ({
                 setListedUser(data);
                 loadingNewData(false);
                 toast({
-                  title: `User updated`,
+                  title: "User updated",
                   status: "success",
                   duration: 9000,
                   isClosable: true,
@@ -134,8 +144,9 @@ const UserForm: React.FC<UserFormProps> = ({
           .catch((error: any) => console.error(error));
         break;
       default:
+        // Display error toast for unknown operation
         toast({
-          title: `Error occurred when sending the data`,
+          title: "Error occurred when sending the data",
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -145,9 +156,11 @@ const UserForm: React.FC<UserFormProps> = ({
 
     setIsLoading(false);
 
+    // Close the form drawer
     onClose();
   };
 
+  // Function to handle form field changes
   const handleChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -155,6 +168,7 @@ const UserForm: React.FC<UserFormProps> = ({
   ) => {
     const { name, value } = event.target;
 
+    // Update formUser state with the changed field
     setFormUser((prevFormUser) => ({
       ...prevFormUser,
       [name]: value,
@@ -177,6 +191,7 @@ const UserForm: React.FC<UserFormProps> = ({
 
         <DrawerBody>
           <Stack spacing="24px">
+            {/* Form fields for user input */}
             <Box>
               <FormLabel htmlFor="username">Name</FormLabel>
               <Input
@@ -232,6 +247,7 @@ const UserForm: React.FC<UserFormProps> = ({
           </Stack>
         </DrawerBody>
 
+        {/* Form submission buttons */}
         <DrawerFooter borderTopWidth="1px">
           <Button
             variant="outline"

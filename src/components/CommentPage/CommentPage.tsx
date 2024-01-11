@@ -71,6 +71,7 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
         })
         .catch((error: any) => console.error(error));
     }
+    // eslint-disable-next-line
   }, [router.isReady]);
 
   return (
