@@ -41,7 +41,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({ menuIcons }) => {
   return (
     <>
       {menuIcons.map((item, index) => (
-        <>
+        <React.Fragment key={index}>
           <ChakraLink
             display="block"
             key={"menuIcon-" + index}
@@ -65,7 +65,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({ menuIcons }) => {
               </Text>
             </Flex>
           </ChakraLink>
-        </>
+        </React.Fragment>
       ))}
     </>
   );

@@ -198,10 +198,10 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
           })}
         {listedPost.length > 0 && (
           <>
-            <Card bgColor="white" align="center" justify="center">
+            <Card mt={3} bgColor="white" align="center" justify="center">
               <CardBody>
                 <Pagination
-                  count={134}
+                  count={50}
                   variant="outlined"
                   page={currentPage}
                   onChange={handleChangePage}

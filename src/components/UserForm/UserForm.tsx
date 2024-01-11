@@ -65,16 +65,24 @@ const UserForm: React.FC<UserFormProps> = ({
 
   const toast = useToast();
 
+  function isValidEmail(email: string): boolean {
+    // Regular expression for a basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    return emailRegex.test(email);
+  }
+
   const handleSubmit = () => {
     setIsLoading(true);
 
     let emptyFields = [];
 
     if (formUser.name === "") emptyFields.push("name");
-    if (formUser.email === "") emptyFields.push("email");
+    if (formUser.email === "" || !isValidEmail(formUser.email))
+      emptyFields.push("email");
     if (emptyFields.length > 0) {
       toast({
-        title: `Please fill the required fields: ${emptyFields.join(", ")}`,
+        title: `Invalid values detected on: ${emptyFields.join(", ")}`,
         status: "error",
         duration: 9000,
         isClosable: true,

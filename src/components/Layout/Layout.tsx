@@ -16,9 +16,6 @@ import React, { MutableRefObject, ReactNode, useRef } from "react";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import NavigationItem from "../NavigationLeft/NavigationItem";
 
-// import { scrollToTop } from "@/reusables/Animation";
-
-// you need to use next/dynamic to import react-twitch-embed
 const ReactTwitchEmbedVideo = dynamic(
   () => import("react-twitch-embed-video"),
   {
@@ -159,16 +156,3 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
   );
 };
 export default Layout;
-
-// for the avatar and username
-/* <Flex>
-<Avatar boxSize="2.4rem" mr={3} name={item.user_id.toString()} />
-<Flex align="center" justify="left">
-  <Text fontWeight="bold" fontSize={14}>
-    {item.user_id.toString()}
-  </Text>
-  <Text fontSize={14}>
-    &nbsp; &#x2022; {item.user_id.toString()}
-  </Text>
-</Flex>
-</Flex> */

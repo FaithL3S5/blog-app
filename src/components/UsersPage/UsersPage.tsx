@@ -26,7 +26,6 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import AddIcon from "@mui/icons-material/Add";
 import { Pagination } from "@mui/material";
 import {
   useRouter as navRouter,
@@ -69,6 +68,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
   const [searchStatus, setSearchStatus] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User>(emptyUser);
   const [operation, setOperation] = useState<string>("add");
+  const [userIdToProcess, setUserIdToProcess] = useState<number>(0);
 
   const drawerDisclosure = useDisclosure();
   const modalDisclosure = useDisclosure();
@@ -92,17 +92,14 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
     const params = new URLSearchParams(searchParams);
     if (query) {
       params.set("q", query);
-      setSearchStatus(false);
     } else {
       params.delete("q");
-      setSearchStatus(true);
     }
     replace(`${pathname}?${params.toString()}`);
 
     const findUser = async () => {
       setIsLoading(true);
       setListedUser([]);
-      // // Add logic here to fetch and display data for the new page
       searchUser(query)
         .then((data) => {
           if (data) setListedUser(data);
@@ -129,6 +126,12 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
   ) => {
     const value = event.target.value;
     setUserToSearch(value);
+
+    if (value) {
+      setSearchStatus(true);
+    } else {
+      setSearchStatus(false);
+    }
   };
 
   const handleChangePage = (
@@ -139,7 +142,6 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
 
     setIsLoading(true);
     setCurrentPage(value);
-    // Add logic here to fetch and display data for the new page
     getUsers(value)
       .then((data) => {
         setListedUser(data);
@@ -160,8 +162,8 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
     drawerDisclosure.onOpen();
   };
 
-  const handleDeleteUser = (user: User) => {
-    deleteUser(user)
+  const handleDeleteUser = () => {
+    deleteUser(userIdToProcess)
       .then(() => {
         setListedUser([]);
         setIsLoading(true);
@@ -171,7 +173,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
             setIsLoading(false);
             modalDisclosure.onClose();
             toast({
-              title: `User deleted (id: ${user.id})`,
+              title: `User deleted (id: ${userIdToProcess})`,
               status: "success",
               duration: 9000,
               isClosable: true,
@@ -201,20 +203,21 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
       />
       <Flex>
         <Button
-          leftIcon={<AddIcon />}
           colorScheme="teal"
+          isLoading={isLoading}
           onClick={handleAddUser}
           pr={5}
           mb={5}
         >
           Add
         </Button>
-        <Spacer mx={5} />
+        <Spacer mx={3} />
         <Input
           borderColor="gray"
           type="text"
           value={userToSearch}
           onChange={handleUserToSearch}
+          disabled={isLoading}
           placeholder="Search user..."
           _placeholder={{ color: "gray" }}
         />
@@ -227,7 +230,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
       {listedUser.length > 0 &&
         listedUser.map((item, index, array) => {
           return (
-            <>
+            <React.Fragment key={index}>
               <Card mb={5}>
                 <CardBody>
                   <Flex
@@ -357,7 +360,10 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                         variant="solid"
                         colorScheme="red"
                         size="sm"
-                        onClick={modalDisclosure.onOpen}
+                        onClick={() => {
+                          setUserIdToProcess(item.id);
+                          modalDisclosure.onOpen();
+                        }}
                       >
                         Delete
                       </Button>
@@ -365,40 +371,10 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                   </SimpleGrid>
                 </CardBody>
               </Card>
-              <Modal
-                isOpen={modalDisclosure.isOpen}
-                onClose={modalDisclosure.onClose}
-              >
-                <ModalOverlay />
-                <ModalContent>
-                  <ModalHeader>Confirmation</ModalHeader>
-                  <ModalCloseButton />
-                  <ModalBody>
-                    Are you sure about this action? It is irreversible!
-                  </ModalBody>
-
-                  <ModalFooter>
-                    <Button
-                      colorScheme="blue"
-                      mr={3}
-                      onClick={modalDisclosure.onClose}
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      variant="solid"
-                      colorScheme="red"
-                      onClick={() => handleDeleteUser(item)}
-                    >
-                      DELETE
-                    </Button>
-                  </ModalFooter>
-                </ModalContent>
-              </Modal>
-            </>
+            </React.Fragment>
           );
         })}
-      {listedUser.length > 0 && (
+      {!isLoading && listedUser.length > 0 && (
         <>
           <Card
             display={searchStatus ? "none" : "flex"}
@@ -408,7 +384,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
           >
             <CardBody>
               <Pagination
-                count={135}
+                count={50}
                 variant="outlined"
                 page={currentPage}
                 onChange={handleChangePage}
@@ -427,10 +403,34 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
         </>
       )}
       {!isLoading && listedUser.length < 1 && (
-        <Center cursor="pointer" mt={5} onClick={scrollToTop}>
+        <Center>
           <Text>No user was found</Text>
         </Center>
       )}
+
+      <Modal isOpen={modalDisclosure.isOpen} onClose={modalDisclosure.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirmation</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Are you sure about this action? It is irreversible!
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={modalDisclosure.onClose}>
+              Close
+            </Button>
+            <Button
+              variant="solid"
+              colorScheme="red"
+              onClick={() => handleDeleteUser()}
+            >
+              DELETE
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

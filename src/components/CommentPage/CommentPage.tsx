@@ -36,8 +36,8 @@ type CommentPageProps = {
 };
 
 const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
+  // State variables to manage component state
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const [postId, setPostId] = useState<number>(0);
   const [comments, setComments] = useState<Comments[]>([]);
   const [oriPost, setOriPost] = useState<OriginalPost>({
     id: 0,
@@ -46,19 +46,22 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
     body: "",
   });
 
+  // Next.js router instance
   const router = useRouter();
 
-  // const postId = parseInt(path[2], 10);
-
   useEffect(() => {
+    // Fetch data when router is ready
     if (router.isReady) {
-      // setPostId(parseInt(router.asPath.split("/")[2], 10));
+      // Extract postId from the URL
       const postId = parseInt(router.asPath.split("/")[2], 10);
 
+      // Fetch the original post
       getSpecificPost(postId)
         .then((data: any) => {
           if (data.message) return;
           setOriPost(data);
+
+          // Fetch comments for the post
           getComments(postId)
             .then((data) => {
               setComments(data);
@@ -72,6 +75,7 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
 
   return (
     <>
+      {/* Navigation link to go back to the post list */}
       <ChakraLink as={Link} href={`/`} _hover={{ textDecoration: "none" }}>
         <HStack position="sticky" py={2} top="0" bg="#1a202c" zIndex="100">
           <Box mt={2}>
@@ -82,9 +86,13 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
           </Text>
         </HStack>
       </ChakraLink>
+
+      {/* Display post content and comments when not loading */}
       {!isLoading && (
         <SimpleGrid pt="0.5rem" pb="2rem" columns={1} fontSize={16}>
+          {/* Original post content */}
           <Box id="postContent" borderBottom="1px solid gray">
+            {/* Original post details */}
             <Box mt={3}>
               <Box>
                 <Text fontWeight="bold" mt={2}>
@@ -93,6 +101,7 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
                 <Text mt={2}>{oriPost.body}</Text>
               </Box>
             </Box>
+            {/* Comment section header */}
             <HStack my={2}>
               <Box color="gray" mt={2}>
                 <CommentIcon />
@@ -102,41 +111,42 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
               </Text>
             </HStack>
           </Box>
+
+          {/* Display individual comments */}
           <Box id="postContainer" overflowY="auto">
-            {comments.map((item, index, array) => {
-              return (
-                <>
-                  <Box
-                    key={index}
-                    id="postContent"
-                    borderBottom="1px solid gray"
-                  >
-                    <Box mt={3} mb={4}>
-                      <Flex mb={3}>
-                        <Avatar boxSize="2.4rem" mr={3} name={item.name} />
-                        <Flex align="center" justify="left">
-                          <Text fontWeight="bold" fontSize={14}>
-                            {item.name}
-                          </Text>
-                          <Text fontSize={14}>
-                            &nbsp; &#x2022; {item.email.toString()}
-                          </Text>
-                        </Flex>
-                      </Flex>
-                      <Box>
-                        <Text>{item.body}</Text>
-                      </Box>
-                    </Box>
+            {comments.map((item, index) => (
+              <Box key={index} id="postContent" borderBottom="1px solid gray">
+                <Box mt={3} mb={4}>
+                  <Flex mb={3}>
+                    {/* Display commenter's avatar */}
+                    <Avatar boxSize="2.4rem" mr={3} name={item.name} />
+                    <Flex align="center" justify="left">
+                      {/* Display commenter's name and email */}
+                      <Text fontWeight="bold" fontSize={14}>
+                        {item.name}
+                      </Text>
+                      <Text fontSize={14}>
+                        &nbsp; &#x2022; {item.email.toString()}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                  {/* Display comment body */}
+                  <Box>
+                    <Text>{item.body}</Text>
                   </Box>
-                </>
-              );
-            })}
+                </Box>
+              </Box>
+            ))}
           </Box>
+
+          {/* Go back to top button */}
           {comments.length > 0 && (
             <Center cursor="pointer" mt={5} onClick={scrollToTop}>
               <Text>Go back up</Text>
             </Center>
           )}
+
+          {/* Display message when no comments are found */}
           {comments.length < 1 && (
             <Center mt={5}>
               <Text>No comment was found</Text>
@@ -144,6 +154,8 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
           )}
         </SimpleGrid>
       )}
+
+      {/* Display loading spinner when data is being fetched */}
       {isLoading && (
         <Flex justify="center" align="center">
           <Spinner color="white" />

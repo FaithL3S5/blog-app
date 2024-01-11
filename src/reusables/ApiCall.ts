@@ -77,9 +77,9 @@ const putUser = async (user: FormUser) => {
   }
 };
 
-const deleteUser = async (user: FormUser) => {
+const deleteUser = async (userId: number) => {
   try {
-    const response = await axios.delete(`${apiUrl}/users/${user.id}`, {
+    const response = await axios.delete(`${apiUrl}/users/${userId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
