@@ -1,26 +1,8 @@
+import CommentPage from "@/components/CommentPage/CommentPage";
 import Layout from "@/components/Layout/Layout";
-import PostPage from "@/components/PostPage/PostPage";
-import { getUsers } from "@/reusables/ApiCall";
-import { useEffect, useRef, useState } from "react";
-
-type DefaultUser = {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  status: string;
-};
+import { useEffect, useRef } from "react";
 
 export default function Home() {
-  // default user (always logged in)
-  const [defaultUser, setDefaultUser] = useState<DefaultUser>({
-    id: 0,
-    name: "",
-    email: "",
-    gender: "",
-    status: "",
-  });
-
   const middleBoxRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToTop = () => {
@@ -42,10 +24,6 @@ export default function Home() {
       currentRef.addEventListener("scroll", handleScroll);
     }
 
-    getUsers(1)
-      .then((data) => setDefaultUser(data[0]))
-      .catch((error: any) => console.error(error));
-
     return () => {
       // Clean up the event listener when the component unmounts
       if (currentRef) {
@@ -57,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Layout middleBoxRef={middleBoxRef}>
-        <PostPage scrollToTop={scrollToTop} defaultUser={defaultUser} />
+        <CommentPage scrollToTop={scrollToTop} />
       </Layout>
     </>
   );
