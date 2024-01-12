@@ -3,7 +3,7 @@
   "short_name": "Faith's Blog App",
   "theme_color": "#1a202c",
   "background_color": "#1a202c",
-  "display": "browser",
+  "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
