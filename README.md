@@ -49,6 +49,7 @@ The project uses several dependencies:
     "dotenv": "^16.3.1",
     "framer-motion": "^10.17.9",
     "next": "14.0.4",
+    "next-pwa": "^5.6.0",
     "react": "^18",
     "react-dom": "^18",
     "recoil": "^0.7.7",
