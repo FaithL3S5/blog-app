@@ -22,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
               content="width=device-width, initial-scale=1"
             />
             <link rel="icon" href="/images/icons/favicon.png" />
+            <link rel="manifest" href="/manifest.json" />
           </Head>
           <Component {...pageProps} />
         </RecoilRoot>
