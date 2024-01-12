@@ -168,7 +168,7 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
                     <ChakraLink
                       as={Link}
                       isExternal
-                      href="https://github.com/FaithL3S5/blog–app"
+                      href="https://github.com/FaithL3S5/blog-app"
                     >
                       https&#58;&#47;&#47;github&#46;com&#47;FaithL3S5&#47;blog&#8211;app
                     </ChakraLink>
