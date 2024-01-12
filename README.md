@@ -2,7 +2,7 @@
 
 ## Description
 
-Simple Blog with Users Management App utilizing Next JS, TypeScript, and Chakra UI.
+Simple Blog with Users Management App utilizing Next JS, TypeScript, Recoil, and Chakra UI.
 
 Also uses Material UI for the Pagination component.
 
@@ -51,7 +51,7 @@ The project uses several dependencies:
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-twitch-embed-video": "^3.0.3",
+    "recoil": "^0.7.7",
     "use-debounce": "^10.0.0"
     },
 
@@ -59,6 +59,7 @@ The project uses several dependencies:
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/recoil": "^0.0.9",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "typescript": "^5"
