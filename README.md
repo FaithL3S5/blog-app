@@ -4,6 +4,8 @@
 
 Simple Blog with Users Management App utilizing Next JS, TypeScript, Recoil, and Chakra UI.
 
+Fully PWA as well!
+
 Also uses Material UI for the Pagination component.
 
 REST APIs are sourced from https://gorest.co.in
