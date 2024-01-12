@@ -67,7 +67,6 @@ The project uses several dependencies:
 ## Limitations
 
 - I am having trouble implementing persistent search query so the search state will be reset everytime you change pages or refresh the website
-- The twitch embed (on the right side with text "Live now") may reload everytime you change pages or refresh the website. Unfortunately, this is the nature of the library and not much can be done by my side.
 
 ## Contributing
 
