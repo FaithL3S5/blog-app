@@ -135,7 +135,7 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
           {children}
         </Box>
 
-        {/* Right menu (Live Now) */}
+        {/* Right menu (Repo) */}
         <Box
           display={{ base: "none", md: "block" }}
           height="100vh"
@@ -165,7 +165,11 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
                   </HStack>
                   <VStack align="left">
                     <Text>You can see the source code here</Text>
-                    <ChakraLink as={Link} isExternal href="/">
+                    <ChakraLink
+                      as={Link}
+                      isExternal
+                      href="https://github.com/FaithL3S5/blog–app"
+                    >
                       https&#58;&#47;&#47;github&#46;com&#47;FaithL3S5&#47;blog&#8211;app
                     </ChakraLink>
                   </VStack>
