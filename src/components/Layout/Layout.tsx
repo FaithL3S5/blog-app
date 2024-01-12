@@ -1,28 +1,36 @@
 import {
   Box,
+  Card,
+  CardBody,
+  Link as ChakraLink,
   Flex,
   HStack,
   IconButton,
   Image,
   SimpleGrid,
+  Stack,
+  StackDivider,
   Text,
+  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Person } from "@mui/icons-material";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
-import dynamic from "next/dynamic";
-import React, { MutableRefObject, ReactNode, useRef } from "react";
+import Link from "next/link";
+import React, { MutableRefObject, ReactNode } from "react";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import NavigationItem from "../NavigationLeft/NavigationItem";
+// import dynamic from "next/dynamic";
 
 // need to use next dynamic to import the twitch embed lib
-const ReactTwitchEmbedVideo = dynamic(
-  () => import("react-twitch-embed-video"),
-  {
-    ssr: false,
-  }
-);
+// const ReactTwitchEmbedVideo = dynamic(
+//   () => import("react-twitch-embed-video"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 type LayoutProps = {
   children: ReactNode;
@@ -145,17 +153,33 @@ const Layout: React.FC<LayoutProps> = ({ children, middleBoxRef }) => {
         >
           <Box float="left">
             {/* Live Now section */}
-            <Text fontSize="xl" fontWeight="bold" mb={4}>
-              Live now
-            </Text>
-            <Box>
-              {/* Twitch Embed Video */}
+            <Card>
+              <CardBody>
+                <Stack divider={<StackDivider />} spacing={4}>
+                  <HStack>
+                    <GitHubIcon />
+
+                    <Text fontSize="1.3rem" fontWeight="bold">
+                      Repository
+                    </Text>
+                  </HStack>
+                  <VStack align="left">
+                    <Text>You can see the source code here</Text>
+                    <ChakraLink as={Link} isExternal href="/">
+                      https&#58;&#47;&#47;github&#46;com&#47;FaithL3S5&#47;blog&#8211;app
+                    </ChakraLink>
+                  </VStack>
+                </Stack>
+              </CardBody>
+            </Card>
+            {/* Twitch Embed Video */}
+            {/* <Box>
               <ReactTwitchEmbedVideo
                 width="100%"
                 height="500px"
                 channel="faith_l3s5"
               />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </SimpleGrid>

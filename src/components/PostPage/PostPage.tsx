@@ -15,6 +15,7 @@ import {
   Text,
   Textarea,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import CommentIcon from "@mui/icons-material/Comment";
 import { Pagination } from "@mui/material";
@@ -61,6 +62,9 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
     title: "",
     body: "",
   });
+
+  // chakra ui toast
+  const toast = useToast();
 
   // Function to handle page change in pagination
   const handleChangePage = (
@@ -112,7 +116,16 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
     if (!formToSend.title) emptyFields.push("title");
     if (!formToSend.body) emptyFields.push("body");
 
-    if (emptyFields.length > 0) return;
+    if (emptyFields.length > 0) {
+      toast({
+        title: `Invalid values detected on: ${emptyFields.join(", ")}`,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      setIsLoading(false);
+      return;
+    }
 
     // Create a new post
     createPost(defaultUser.id, formToSend)
@@ -129,6 +142,12 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
           .then((data) => {
             setListedPost(data);
             setIsLoading(false);
+            toast({
+              title: `Your thread has been posted`,
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
           })
           .catch((error: any) => console.error(error));
       })
@@ -249,7 +268,7 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
 
         {/* No posts found message */}
         {!isLoading && listedPost.length < 1 && (
-          <Center mt={5}>
+          <Center mt={5} borderY="1px solid gray" py={3}>
             <Text>No posts were found</Text>
           </Center>
         )}

@@ -311,6 +311,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                         size="sm"
                         onClick={() => handleUpdateUser(item)}
                         mr={10}
+                        isLoading={isLoading}
                       >
                         Update
                       </Button>
@@ -319,6 +320,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                         variant="solid"
                         colorScheme="red"
                         size="sm"
+                        isLoading={isLoading}
                       >
                         Delete
                       </Button>
@@ -378,6 +380,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                         variant="solid"
                         colorScheme="purple"
                         size="sm"
+                        isLoading={isLoading}
                         onClick={() => handleUpdateUser(item)}
                       >
                         Update
@@ -387,6 +390,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
                         variant="solid"
                         colorScheme="red"
                         size="sm"
+                        isLoading={isLoading}
                         onClick={() => {
                           setUserIdToProcess(item.id);
                           modalDisclosure.onOpen();
@@ -435,7 +439,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
       )}
       {/* Display message when no users are found */}
       {!isLoading && listedUser.length < 1 && (
-        <Center>
+        <Center borderY="1px solid gray" py={3}>
           <Text>No user was found</Text>
         </Center>
       )}
@@ -458,6 +462,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
             <Button
               variant="solid"
               colorScheme="red"
+              isLoading={isLoading}
               onClick={() => handleDeleteUser()}
             >
               DELETE

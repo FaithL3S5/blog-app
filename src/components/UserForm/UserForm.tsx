@@ -253,7 +253,7 @@ const UserForm: React.FC<UserFormProps> = ({
             variant="outline"
             mr={3}
             onClick={onClose}
-            disabled={isLoading}
+            isLoading={isLoading}
           >
             Cancel
           </Button>

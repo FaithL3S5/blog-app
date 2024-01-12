@@ -2,24 +2,12 @@ import Layout from "@/components/Layout/Layout";
 import PostPage from "@/components/PostPage/PostPage";
 import { getUsers } from "@/reusables/ApiCall";
 import { useEffect, useRef, useState } from "react";
-
-type DefaultUser = {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  status: string;
-};
+import { useRecoilState } from "recoil";
+import { defaultUserState } from "@/atoms/DefaultUserAtom";
 
 export default function Home() {
   // State to store the default user information
-  const [defaultUser, setDefaultUser] = useState<DefaultUser>({
-    id: 0,
-    name: "",
-    email: "",
-    gender: "",
-    status: "",
-  });
+  const [defaultUser, setDefaultUser] = useRecoilState(defaultUserState);
 
   // Create a ref for the middle box to be used in scrolling
   const middleBoxRef = useRef<HTMLDivElement | null>(null);
@@ -58,6 +46,7 @@ export default function Home() {
         currentRef.removeEventListener("scroll", handleScroll);
       }
     };
+    // eslint-disable-next-line
   }, []); // Empty dependency array ensures the effect runs only on mount and unmount
 
   // Render the component with Layout and PostPage components

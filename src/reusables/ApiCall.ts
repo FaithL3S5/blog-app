@@ -19,6 +19,12 @@ type PostContent = {
   body: string;
 };
 
+type CommentForm = {
+  name: string;
+  email: string;
+  body: string;
+};
+
 // Function to fetch a list of users based on the page
 const getUsers = async (page: number) => {
   try {
@@ -164,6 +170,25 @@ const createPost = async (userId: number, postData: PostContent) => {
   }
 };
 
+// Function to create a new comment on a specific post
+const createComment = async (postId: number, commentData: CommentForm) => {
+  try {
+    const response = await axios.post(
+      `${apiUrl}/posts/${postId}/comments`,
+      commentData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error: any) {
+    console.error("Error:", error.message);
+  }
+};
+
 // Export all the functions
 export {
   createPost,
@@ -175,4 +200,5 @@ export {
   postUser,
   putUser,
   searchUser,
+  createComment,
 };
