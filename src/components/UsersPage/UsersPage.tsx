@@ -234,6 +234,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
           borderColor="gray"
           type="text"
           value={userToSearch}
+          maxLength={200}
           onChange={handleUserToSearch}
           disabled={isLoading}
           placeholder="Search user..."

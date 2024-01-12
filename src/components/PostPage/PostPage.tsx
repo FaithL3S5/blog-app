@@ -167,6 +167,8 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
               borderColor="gray"
               name="title"
               type="text"
+              value={formToSend.title}
+              maxLength={200}
               onChange={handleChange}
               disabled={isLoading}
               placeholder="Your awesome title"
@@ -177,6 +179,8 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
               variant="outline"
               borderColor="gray"
               name="body"
+              value={formToSend.body}
+              maxLength={500}
               onChange={handleChange}
               disabled={isLoading}
               placeholder="Share something with the world..."
@@ -209,6 +213,7 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
 
         {/* Render each post */}
         {!isLoading &&
+          listedPost.length > 0 &&
           listedPost.map((item, index, array) => (
             <ChakraLink
               key={index}
@@ -238,7 +243,7 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
           ))}
 
         {/* Pagination and loading spinner */}
-        {listedPost.length > 0 && (
+        {!isLoading && listedPost.length > 0 && (
           <>
             {/* Pagination component */}
             <Card mt={3} bgColor="white" align="center" justify="center">

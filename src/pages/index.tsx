@@ -37,7 +37,10 @@ export default function Home() {
 
     // Fetch the default user when the component mounts
     getUsers(1)
-      .then((data) => setDefaultUser(data[0]))
+      .then((data) => {
+        setDefaultUser(data[0]);
+        localStorage.setItem("defaultUser", JSON.stringify(data[0]));
+      })
       .catch((error: any) => console.error(error));
 
     // Clean up the event listener and any other cleanup logic when the component unmounts

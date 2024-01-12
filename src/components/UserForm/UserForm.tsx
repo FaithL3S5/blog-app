@@ -200,6 +200,7 @@ const UserForm: React.FC<UserFormProps> = ({
                 name="name"
                 placeholder="Please enter user name"
                 value={formUser.name}
+                maxLength={200}
                 onChange={handleChange}
                 disabled={isLoading}
               />
@@ -212,6 +213,7 @@ const UserForm: React.FC<UserFormProps> = ({
                 id="email"
                 name="email"
                 value={formUser.email}
+                maxLength={200}
                 onChange={handleChange}
                 disabled={isLoading}
               />

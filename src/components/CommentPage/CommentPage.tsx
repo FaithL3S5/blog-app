@@ -27,7 +27,6 @@ import CommentIcon from "@mui/icons-material/Comment";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 
 type User = {
   id: number;
@@ -66,8 +65,23 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
   // chakra ui toast
   const toast = useToast();
 
+  // empty user object to check if user exist
+  const emptyUser = {
+    id: 0,
+    name: "",
+    email: "",
+    gender: "",
+    status: "",
+  };
+
   // Get default user value
-  const defaultUser = useRecoilValue(defaultUserState);
+  // eslint-disable-next-line
+  const storedData: User = JSON.parse(
+    (typeof window !== "undefined"
+      ? localStorage.getItem("defaultUser")
+      : null) ?? JSON.stringify(emptyUser)
+  );
+  const defaultUser = storedData;
 
   // State variables to manage component state
   const [postId, setPostId] = useState<number>(0);
@@ -84,15 +98,6 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
     email: defaultUser.email,
     body: "",
   });
-
-  // empty user object to check if user exist
-  const emptyUser = {
-    id: 0,
-    name: "",
-    email: "",
-    gender: "",
-    status: "",
-  };
 
   // Next.js router instance
   const router = useRouter();
@@ -182,11 +187,10 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
     createComment(oriPost.id, formToSend)
       .then(() => {
         // Clear the form
-        setFormToSend({
-          name: "",
-          email: "",
+        setFormToSend((prev) => ({
+          ...prev,
           body: "",
-        });
+        }));
 
         // Fetch and display posts for the first page
         getComments(postId)
@@ -258,6 +262,8 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
                 color="gray"
                 onChange={handleChange}
                 disabled={isLoading}
+                value={formToSend.body}
+                maxLength={500}
                 placeholder="Share your thoughts of this post..."
                 _placeholder={{ color: "gray" }}
               />
