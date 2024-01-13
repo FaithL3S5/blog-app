@@ -117,9 +117,25 @@ const UserForm: React.FC<UserFormProps> = ({
                   isClosable: true,
                 });
               })
-              .catch((error: any) => console.error(error));
+              .catch((error: any) => {
+                toast({
+                  title: "An error occurred when sending the request",
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                });
+                console.error(error);
+              });
           })
-          .catch((error: any) => console.error(error));
+          .catch((error: any) => {
+            toast({
+              title: "An error occurred when sending the request",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+            console.error(error);
+          });
         break;
       case "edit":
         // Logic for editing an existing user
@@ -139,9 +155,25 @@ const UserForm: React.FC<UserFormProps> = ({
                   isClosable: true,
                 });
               })
-              .catch((error: any) => console.error(error));
+              .catch((error: any) => {
+                toast({
+                  title: "An error occurred when sending the request",
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                });
+                console.error(error);
+              });
           })
-          .catch((error: any) => console.error(error));
+          .catch((error: any) => {
+            toast({
+              title: "An error occurred when sending the request",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+            console.error(error);
+          });
         break;
       default:
         // Display error toast for unknown operation

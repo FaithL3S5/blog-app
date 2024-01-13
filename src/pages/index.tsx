@@ -4,8 +4,12 @@ import { getUsers } from "@/reusables/ApiCall";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { defaultUserState } from "@/atoms/DefaultUserAtom";
+import { useToast } from "@chakra-ui/react";
 
 export default function Home() {
+  // chakra ui toast
+  const toast = useToast();
+
   // State to store the default user information
   const [defaultUser, setDefaultUser] = useRecoilState(defaultUserState);
 
@@ -41,7 +45,15 @@ export default function Home() {
         setDefaultUser(data[0]);
         localStorage.setItem("defaultUser", JSON.stringify(data[0]));
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
 
     // Clean up the event listener and any other cleanup logic when the component unmounts
     return () => {

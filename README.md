@@ -55,8 +55,9 @@ The project uses several dependencies:
     "react": "^18",
     "react-dom": "^18",
     "recoil": "^0.7.7",
+    "terser-webpack-plugin": "^5.3.10",
     "use-debounce": "^10.0.0"
-    },
+    }
 
     "devDependencies": {
     "@types/node": "^20",

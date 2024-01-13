@@ -91,7 +91,16 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
         setListedUser(data);
         setIsLoading(false);
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
+    // eslint-disable-next-line
   }, []);
 
   // Effect to handle search queries and update URL
@@ -112,7 +121,15 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
           if (data) setListedUser(data);
           setIsLoading(false);
         })
-        .catch((error: any) => console.error(error));
+        .catch((error: any) => {
+          toast({
+            title: "An error occurred when sending the request",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+          console.error(error);
+        });
     };
 
     findUser();
@@ -157,7 +174,15 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
         setListedUser(data);
         setIsLoading(false);
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
   };
 
   // Event handler for adding a new user
@@ -192,9 +217,25 @@ const UsersPage: React.FC<UsersPageProps> = ({ scrollToTop }) => {
               isClosable: true,
             });
           })
-          .catch((error: any) => console.error(error));
+          .catch((error: any) => {
+            toast({
+              title: "An error occurred when sending the request",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+            console.error(error);
+          });
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
   };
 
   return (

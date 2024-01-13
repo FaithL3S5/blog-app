@@ -37,9 +37,13 @@ const getUsers = async (page: number) => {
       }
     );
 
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Get Request Failure");
+
     return response.data;
   } catch (error: any) {
     console.error("Error:", error.message);
+    return error;
   }
 };
 
@@ -51,6 +55,9 @@ const searchUser = async (name: string) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Get Request Failure");
 
     return response.data;
   } catch (error: any) {
@@ -67,6 +74,9 @@ const postUser = async (user: FormUser) => {
       },
     });
 
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Post Request Failure");
+
     return response.data;
   } catch (error: any) {
     console.error("Error:", error.message);
@@ -82,6 +92,9 @@ const putUser = async (user: FormUser) => {
       },
     });
 
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Put Request Failure");
+
     return response.data;
   } catch (error: any) {
     console.error("Error:", error.message);
@@ -96,6 +109,9 @@ const deleteUser = async (userId: number) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Delete Request Failure");
 
     return response.data;
   } catch (error: any) {
@@ -115,6 +131,9 @@ const getPosts = async (page: number) => {
       }
     );
 
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Get Request Failure");
+
     return response.data;
   } catch (error: any) {
     console.error("Error:", error.message);
@@ -130,6 +149,9 @@ const getSpecificPost = async (postId: number) => {
       },
     });
 
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Get Request Failure");
+
     return response.data;
   } catch (error: any) {
     console.error("Error:", error.message);
@@ -144,6 +166,9 @@ const getComments = async (postId: number) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Get Request Failure");
 
     return response.data;
   } catch (error: any) {
@@ -164,6 +189,9 @@ const createPost = async (userId: number, postData: PostContent) => {
       }
     );
 
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Post Request Failure");
+
     return response.data;
   } catch (error: any) {
     console.error("Error:", error.message);
@@ -182,6 +210,9 @@ const createComment = async (postId: number, commentData: CommentForm) => {
         },
       }
     );
+
+    if (!(response.status >= 200 && response.status < 300))
+      throw new Error("Post Request Failure");
 
     return response.data;
   } catch (error: any) {

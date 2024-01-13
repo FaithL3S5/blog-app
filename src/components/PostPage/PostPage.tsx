@@ -82,7 +82,15 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
         setListedPost(data);
         setIsLoading(false);
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
   };
 
   // Fetch and display data when the component mounts
@@ -92,7 +100,16 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
         setListedPost(data);
         setIsLoading(false);
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
+    // eslint-disable-next-line
   }, []);
 
   // Function to handle input change in the form
@@ -149,9 +166,25 @@ const PostPage: React.FC<PostPageProps> = ({ defaultUser, scrollToTop }) => {
               isClosable: true,
             });
           })
-          .catch((error: any) => console.error(error));
+          .catch((error: any) => {
+            toast({
+              title: "An error occurred when sending the request",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+            console.error(error);
+          });
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
   };
 
   return (

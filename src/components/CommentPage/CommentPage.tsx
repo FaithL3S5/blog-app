@@ -121,9 +121,25 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
               setComments(data);
               setIsLoading(false);
             })
-            .catch((error: any) => console.error(error));
+            .catch((error: any) => {
+              toast({
+                title: "An error occurred when sending the request",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+              console.error(error);
+            });
         })
-        .catch((error: any) => console.error(error));
+        .catch((error: any) => {
+          toast({
+            title: "An error occurred when sending the request",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+          console.error(error);
+        });
     }
     // eslint-disable-next-line
   }, [router.isReady]);
@@ -204,9 +220,25 @@ const CommentPage: React.FC<CommentPageProps> = ({ scrollToTop }) => {
               isClosable: true,
             });
           })
-          .catch((error: any) => console.error(error));
+          .catch((error: any) => {
+            toast({
+              title: "An error occurred when sending the request",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+            console.error(error);
+          });
       })
-      .catch((error: any) => console.error(error));
+      .catch((error: any) => {
+        toast({
+          title: "An error occurred when sending the request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error(error);
+      });
   };
 
   return (
